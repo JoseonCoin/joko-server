@@ -1,6 +1,6 @@
-package com.example.demo.domain.auth.domain.repository;
+package com.example.demo.domain.auth.repository;
 
-import com.example.demo.domain.auth.domain.RefreshToken;
+import com.example.demo.domain.auth.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
