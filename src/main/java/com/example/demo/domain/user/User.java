@@ -1,7 +1,9 @@
 package com.example.demo.domain.user;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import com.example.demo.domain.rank.Rank;
 
 @Entity
 @AllArgsConstructor
@@ -22,4 +24,8 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Rank rank = Rank.CHEONMIN;
 }
