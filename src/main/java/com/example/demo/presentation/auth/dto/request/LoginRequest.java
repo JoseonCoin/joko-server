@@ -1,4 +1,4 @@
-package com.example.demo.domain.auth.presentation.dto.request;
+package com.example.demo.presentation.auth.dto.request;
 
 public record LoginRequest (
 

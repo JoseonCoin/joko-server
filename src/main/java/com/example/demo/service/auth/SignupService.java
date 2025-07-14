@@ -1,4 +1,4 @@
-package com.example.demo.domain.auth.service;
+package com.example.demo.service.auth;
 
 import org.springframework.stereotype.Service;
 
