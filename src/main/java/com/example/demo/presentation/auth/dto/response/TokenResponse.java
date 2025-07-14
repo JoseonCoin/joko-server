@@ -1,4 +1,11 @@
 package com.example.demo.presentation.auth.dto.response;
 
-public class TokenResponse {
-}
+import lombok.Builder;
+
+import java.time.ZonedDateTime;
+
+@Builder
+public record TokenResponse (
+        String accessToken, ZonedDateTime accessTokenExpiresAt,
+        String refreshToken, ZonedDateTime refreshTokenExpiresAt
+){}
