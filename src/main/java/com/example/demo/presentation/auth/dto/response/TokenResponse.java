@@ -1,4 +1,4 @@
-package com.example.demo.domain.auth.presentation.dto.response;
+package com.example.demo.presentation.auth.dto.response;
 
 public class TokenResponse {
 }

@@ -1,4 +1,4 @@
-package com.example.demo.domain.auth.domain;
+package com.example.demo.domain.auth;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
