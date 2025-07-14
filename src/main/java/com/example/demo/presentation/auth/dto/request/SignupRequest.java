@@ -2,9 +2,7 @@ package com.example.demo.presentation.auth.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
 
-@Getter
 public record SignupRequest (
 
         @NotBlank(message = "사용자 이름은 필수입니다.")
