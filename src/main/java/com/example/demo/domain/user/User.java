@@ -1,5 +1,6 @@
 package com.example.demo.domain.user;
 
+import com.example.demo.domain.rank.Rank;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,4 +22,11 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private Rank rank;
+
+    @Column(nullable = false)
+    private Integer coin;
+
 }
