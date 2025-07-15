@@ -23,13 +23,11 @@ public class SignupService {
             throw UserAlreadyExistsException.EXCEPTION;
         }
 
-        Rank rank = request.rank() == null ?Rank.CHEONMIN : request.rank();
-
         User user = User.builder()
                 .accountId(request.accountId())
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
-                .rank(rank)
+                .rank(Rank.CHEONMIN)
                 .build();
 
         userRepository.save(user);

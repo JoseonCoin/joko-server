@@ -3,7 +3,11 @@ package com.example.demo.domain.user;
 import com.example.demo.domain.rank.Rank;
 import jakarta.persistence.*;
 import lombok.*;
+
 import org.springframework.stereotype.Service;
+
+import com.example.demo.domain.rank.Rank;
+
 
 @Entity
 @AllArgsConstructor
@@ -26,16 +30,26 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "user_rank")
-    private Rank rank;
+    private Rank rank = Rank.CHEONMIN;
 
     @Column(nullable = false)
-    private int coin;
+    private int coin = 0;
 
+    // 코인 사용
+    public void spendCoin(int amount) {
+        if (this.coin < amount) throw new IllegalArgumentException("코인이 부족합니다.");
+        this.coin -= amount;
+    }
+
+    // 코인 얻기
+    public void earnCoin(int amount) {
+        this.coin += amount;
+    }
+  
     public void addCoin(int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("코인 추가 금액은 음수일 수 없습니다.");
         }
-        this.coin += amount;
-    }
 }
