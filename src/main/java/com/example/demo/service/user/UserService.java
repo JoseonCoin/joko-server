@@ -21,18 +21,20 @@ public class UserService {
     public static final int cost = 15;
 
     @Transactional
-    public void changeEra(Long userId, Era newEra) {
+    public Event changeEra(Long userId, Era newEra) {
         User user = userRepository.findById(userId).orElseThrow();
 
         if (user.getCoin() < cost) throw new IllegalArgumentException("코인이 부족합니다.");
 
         List<Event> events = Arrays.stream(Event.values())
-            .filter(e -> e.getEra() == newEra)
-            .collect(Collectors.toList());
+                .filter(e -> e.getEra() == newEra)
+                .collect(Collectors.toList());
 
         Event randomEvent = events.get(new Random().nextInt(events.size()));
 
         user.spendCoin(cost);
         user.changeEraAndEvent(newEra, randomEvent);
+
+        return randomEvent;
     }
 }
