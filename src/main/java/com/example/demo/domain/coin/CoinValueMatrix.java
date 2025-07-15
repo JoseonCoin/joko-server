@@ -1,39 +1,32 @@
-package com.example.demo.domain.quiz;
+package com.example.demo.domain.coin;
 
 import com.example.demo.domain.rank.Rank;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "coin_value_matrix")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Quiz {
+@Builder
+public class CoinValueMatrix {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String question;
-
-    private String option1;
-    private String option2;
-    private String option3;
-    private String option4;
-
-    private int answerIndex;
-
-    private int coin;
-  
-    private String imageUrl;
-
-    @Column(nullable = false)
-    private String explanation;
-
-    @Column(name = "user_rank")
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Era era;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "user_rank")
     private Rank rank;
+
+    @Column(nullable = false)
+    private double multiplier;
 }

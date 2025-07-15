@@ -23,4 +23,10 @@ public class Item {
 
     @Column(nullable = false)
     private Integer price;
+
+    @Column(nullable = true)
+    private String imageUrl;
+
+    @Column(nullable = true)
+    private String description;
 }

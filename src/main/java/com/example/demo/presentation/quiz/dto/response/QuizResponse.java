@@ -12,4 +12,5 @@ public class QuizResponse {
     private Long quizId;
     private String question;
     private List<String> options;
+    private String imageUrl;
 }

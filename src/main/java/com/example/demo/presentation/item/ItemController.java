@@ -3,30 +3,44 @@ package com.example.demo.presentation.item;
 import com.example.demo.presentation.item.dto.BuyItemRequest;
 import com.example.demo.service.item.UserItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.example.demo.domain.item.ItemRepository;
+import java.util.List;
+
+import com.example.demo.presentation.item.dto.ItemSimpleResponse;
+import com.example.demo.presentation.item.dto.ItemDetailResponse;
+import com.example.demo.domain.item.UserItemRepository;
 
 @RestController
 @RequestMapping("/item")
 @RequiredArgsConstructor
 public class ItemController {
     private final UserItemService userItemService;
+    private final ItemRepository itemRepository;
+    private final UserItemRepository userItemRepository;
 
     @PostMapping("/buy")
     public void buy(@RequestBody BuyItemRequest request) {
         userItemService.buyItem(request);
     }
 
-    @PostMapping("/equip")
-    public void equip(@RequestParam Long userItemId) {
-        userItemService.equipItem(userItemId);
+    @PostMapping("/sell")
+    public void sell(@RequestParam Long userItemId) {
+        userItemService.sellItem(userItemId);
     }
 
-    @PostMapping("/unequip")
-    public void unequip(@RequestParam Long userItemId) {
-        userItemService.unequipItem(userItemId);
+    @GetMapping("/all")
+    public List<ItemSimpleResponse> getAllItems() {
+        return itemRepository.findAll().stream()
+            .map(ItemSimpleResponse::from)
+            .toList();
+    }
+
+    @GetMapping("/detail/{itemId}")
+    public ItemDetailResponse getItemDetail(@PathVariable Long itemId, @RequestParam Long userId) {
+        boolean owned = userItemRepository.existsByUserIdAndItemId(userId, itemId);
+        return itemRepository.findById(itemId)
+            .map(item -> ItemDetailResponse.from(item, owned))
+            .orElseThrow();
     }
 }
