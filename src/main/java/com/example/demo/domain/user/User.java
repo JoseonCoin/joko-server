@@ -1,6 +1,7 @@
 package com.example.demo.domain.user;
 
 import com.example.demo.domain.rank.Rank;
+import com.example.demo.domain.rank.Job;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +35,10 @@ public class User {
     @Column(nullable = false, name = "user_rank")
     private Rank rank = Rank.CHEONMIN;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Job job = Job.NOBI;
+
     @Column(nullable = false)
     private int coin = 0;
 
@@ -52,5 +57,10 @@ public class User {
         if (amount < 0) {
             throw new IllegalArgumentException("코인 추가 금액은 음수일 수 없습니다.");
         }
+
+    public void promoteRankAndJob(Rank nextRank, Job nextJob) {
+        this.rank = nextRank;
+        this.job = nextJob;
+    }
     }
 }
