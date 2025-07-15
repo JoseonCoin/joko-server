@@ -9,6 +9,8 @@ import com.example.demo.service.user.UserService;
 import com.example.demo.service.user.dto.ChangeEraResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.domain.user.repository.UserRepository;
+import com.example.demo.presentation.user.dto.CoinResponse;
 
 import java.util.List;
 
@@ -36,5 +38,11 @@ public class UserController {
     public ChangeEraResponse changeEra(@RequestParam Long userId, @RequestParam Era era) {
         Event event = userService.changeEra(userId, era);
         return ChangeEraResponse.of(era, event);
+    }
+
+    @GetMapping("/coin")
+    public CoinResponse getCoin(@RequestParam Long userId) {
+        int coin = userService.getCoin(userId);
+        return new CoinResponse(coin);
     }
 }
