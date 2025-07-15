@@ -19,4 +19,9 @@ public class ItemController {
     public void buy(@RequestBody BuyItemRequest request) {
         userItemService.buyItem(request);
     }
+
+    @PostMapping("/sell")
+    public void sell(@RequestParam Long userItemId) {
+        userItemService.sellItem(userItemId);
+    }
 }

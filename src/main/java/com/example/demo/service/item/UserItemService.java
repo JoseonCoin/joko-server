@@ -32,4 +32,14 @@ public class UserItemService {
         user.spendCoin(cost);
         userItemRepository.save(UserItem.builder().user(user).item(item).build());
     }
+
+    @Transactional
+    public void sellItem(Long userItemId) {
+        UserItem userItem = userItemRepository.findById(userItemId).orElseThrow();
+        User user = userItem.getUser();
+        Item item = userItem.getItem();
+        int salePrice = (int) Math.ceil(item.getPrice() * user.getEvent().getMultiplier());
+        user.earnCoin(salePrice);
+        userItemRepository.delete(userItem);
+    }
 }
