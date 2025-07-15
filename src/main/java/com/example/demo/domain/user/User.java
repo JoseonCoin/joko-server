@@ -1,8 +1,7 @@
 package com.example.demo.domain.user;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import com.example.demo.domain.rank.Rank;
 
 @Entity
@@ -26,7 +25,7 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "user_rank")
     private Rank rank = Rank.CHEONMIN;
 
     @Column(nullable = false)

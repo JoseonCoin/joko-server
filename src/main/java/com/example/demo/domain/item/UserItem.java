@@ -22,7 +22,7 @@ public class UserItem {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "is_using")
     private boolean using = false;
 
     // 장착

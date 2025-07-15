@@ -5,7 +5,7 @@ import com.example.demo.domain.item.ItemRepository;
 import com.example.demo.domain.item.UserItem;
 import com.example.demo.domain.item.UserItemRepository;
 import com.example.demo.domain.user.User;
-import com.example.demo.domain.user.UserRepository;
+import com.example.demo.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
