@@ -1,14 +1,15 @@
 package com.example.demo.domain.quiz;
 
-import com.example.demo.domain.quiz.type.Rank;
-import com.example.demo.domain.quiz.type.Type;
+import com.example.demo.domain.rank.Rank;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Quiz {
 
     @Id
@@ -23,11 +24,12 @@ public class Quiz {
     private String option3;
     private String option4;
 
-    private String answer;
+    private int answerIndex;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
+    @Column(nullable = false)
+    private String explanation;
 
+    @Column(name = "user_rank")
     @Enumerated(EnumType.STRING)
     private Rank rank;
 }
