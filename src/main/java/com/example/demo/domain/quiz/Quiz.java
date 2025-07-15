@@ -26,6 +26,8 @@ public class Quiz {
 
     private int answerIndex;
 
+    private String imageUrl;
+
     @Column(nullable = false)
     private String explanation;
 
