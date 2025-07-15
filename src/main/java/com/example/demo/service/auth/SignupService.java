@@ -1,5 +1,6 @@
 package com.example.demo.service.auth;
 
+import com.example.demo.domain.rank.Rank;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.exception.UserAlreadyExistsException;
 import com.example.demo.domain.user.repository.UserRepository;
@@ -22,10 +23,13 @@ public class SignupService {
             throw UserAlreadyExistsException.EXCEPTION;
         }
 
+        Rank rank = request.rank() == null ?Rank.CHEONMIN : request.rank();
+
         User user = User.builder()
                 .accountId(request.accountId())
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
+                .rank(rank)
                 .build();
 
         userRepository.save(user);
