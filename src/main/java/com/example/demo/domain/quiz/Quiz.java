@@ -26,6 +26,8 @@ public class Quiz {
 
     private int answerIndex;
 
+    private int coin;
+
     @Column(nullable = false)
     private String explanation;
 

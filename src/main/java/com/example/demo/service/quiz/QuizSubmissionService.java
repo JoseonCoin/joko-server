@@ -42,7 +42,8 @@ public class QuizSubmissionService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
-        int coinReward = correct ? 1 : 0;
+        int coinReward = correct ? quiz.getCoin() : 0;
+
         if (correct) {
             user.addCoin(coinReward);
         }
