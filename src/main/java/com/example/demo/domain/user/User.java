@@ -47,9 +47,10 @@ public class User {
     public void earnCoin(int amount) {
         this.coin += amount;
     }
-  
+
     public void addCoin(int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("코인 추가 금액은 음수일 수 없습니다.");
         }
+    }
 }
