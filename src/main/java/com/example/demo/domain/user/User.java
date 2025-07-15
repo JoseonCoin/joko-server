@@ -28,4 +28,18 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Rank rank = Rank.CHEONMIN;
+
+    @Column(nullable = false)
+    private int coin = 0;
+
+    // 코인 사용
+    public void spendCoin(int amount) {
+        if (this.coin < amount) throw new IllegalArgumentException("코인이 부족합니다.");
+        this.coin -= amount;
+    }
+
+    // 코인 얻기
+    public void earnCoin(int amount) {
+        this.coin += amount;
+    }
 }

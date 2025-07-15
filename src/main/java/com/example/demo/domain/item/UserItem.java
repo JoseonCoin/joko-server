@@ -1,6 +1,6 @@
-package com.example.demo.domain.user;
+package com.example.demo.domain.item;
 
-import com.example.demo.domain.item.Item;
+import com.example.demo.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +23,17 @@ public class UserItem {
     private Item item;
 
     @Column(nullable = false)
-    private boolean used = false;
+    private boolean using = false;
 
-    // 사용 시각 등 추가 정보가 필요하면 필드 추가 가능
-} 
+    // 장착
+    public void equip() {
+        if (this.using) throw new IllegalStateException("이미 장착 중인 아이템입니다.");
+        this.using = true;
+    }
+
+    // 해제
+    public void unequip() {
+        if (!this.using) throw new IllegalStateException("이미 해제된 아이템입니다.");
+        this.using = false;
+    }
+}
