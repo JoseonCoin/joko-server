@@ -1,6 +1,7 @@
 package com.example.demo.service.auth;
 
 import com.example.demo.domain.coin.Era;
+import com.example.demo.domain.rank.Job;
 import com.example.demo.domain.rank.Rank;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.exception.UserAlreadyExistsException;
@@ -28,6 +29,7 @@ public class SignupService {
                 .password(passwordEncoder.encode(request.password()))
                 .rank(Rank.CHEONMIN)
                 .era(Era.JEON_GI)
+                .job(Job.NOBI)
                 .build();
 
         userRepository.save(user);

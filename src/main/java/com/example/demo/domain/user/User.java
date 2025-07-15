@@ -59,9 +59,12 @@ public class User {
         }
     }
 
-    public void promoteRankAndJob (Rank nextRank, Job nextJob){
+    public void promoteRankAndJob(Rank nextRank, Job nextJob) {
         this.rank = nextRank;
         this.job = nextJob;
     }
+
+    public void changeEra(Era newEra) {
+        this.era = newEra;
     }
 }
