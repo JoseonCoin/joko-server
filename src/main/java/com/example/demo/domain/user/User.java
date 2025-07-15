@@ -1,13 +1,11 @@
 package com.example.demo.domain.user;
 
+import com.example.demo.domain.coin.Era;
+import com.example.demo.domain.coin.Event;
 import com.example.demo.domain.rank.Rank;
+import com.example.demo.domain.rank.Job;
 import jakarta.persistence.*;
 import lombok.*;
-
-import org.springframework.stereotype.Service;
-
-import com.example.demo.domain.rank.Rank;
-
 
 @Entity
 @AllArgsConstructor
@@ -34,6 +32,18 @@ public class User {
     @Column(nullable = false, name = "user_rank")
     private Rank rank = Rank.CHEONMIN;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Job job = Job.NOBI;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Era era;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Event event;
+
     @Column(nullable = false)
     private int coin = 0;
 
@@ -52,5 +62,20 @@ public class User {
         if (amount < 0) {
             throw new IllegalArgumentException("코인 추가 금액은 음수일 수 없습니다.");
         }
+    }
+
+    public void promoteRankAndJob(Rank nextRank, Job nextJob) {
+        this.rank = nextRank;
+        this.job = nextJob;
+    }
+
+    public void changeEra(Era newEra) {
+        this.era = newEra;
+    }
+
+    // 시대/사건 변경
+    public void changeEraAndEvent(Era newEra, Event newEvent) {
+        this.era = newEra;
+        this.event = newEvent;
     }
 }

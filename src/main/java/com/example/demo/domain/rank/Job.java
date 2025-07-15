@@ -1,5 +1,9 @@
 package com.example.demo.domain.rank;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum Job {
     NOBI(Rank.CHEONMIN),         // 노비
     NONGMIN(Rank.SANGMIN),       // 농민
@@ -10,12 +14,16 @@ public enum Job {
     KING(Rank.KING);             // 왕
 
     private final Rank rank;
-
     Job(Rank rank) {
         this.rank = rank;
     }
-
     public Rank getRank() {
         return rank;
+    }
+
+    public static List<Job> getJobsByRank(Rank rank) {
+        return Arrays.stream(Job.values())
+                .filter(job -> job.getRank() == rank)
+                .collect(Collectors.toList());
     }
 }
