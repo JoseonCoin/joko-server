@@ -1,11 +1,10 @@
 package com.example.demo.service.auth;
 
 import com.example.demo.domain.rank.Rank;
+import com.example.demo.domain.user.Era;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.exception.UserAlreadyExistsException;
 import com.example.demo.domain.user.repository.UserRepository;
-import com.example.demo.global.security.jwt.JwtProperties;
-import com.example.demo.global.security.jwt.JwtTokenProvider;
 import com.example.demo.presentation.auth.dto.request.SignupRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +27,7 @@ public class SignupService {
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
                 .rank(Rank.CHEONMIN)
+                .era(Era.JEON_GI)
                 .build();
 
         userRepository.save(user);
