@@ -6,6 +6,7 @@ import com.example.demo.domain.item.UserItem;
 import com.example.demo.domain.item.UserItemRepository;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.repository.UserRepository;
+import com.example.demo.presentation.item.dto.BuyItemRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ public class UserItemService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public void buyItem(Long userId, Long itemId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        Item item = itemRepository.findById(itemId).orElseThrow();
+    public void buyItem(BuyItemRequest request) {
+        User user = userRepository.findById(request.getUserId()).orElseThrow();
+        Item item = itemRepository.findById(request.getItemId()).orElseThrow();
         if (user.getRank() != item.getJob().getRank()) {
             throw new IllegalArgumentException("해당 신분의 직업만 구매할 수 있습니다.");
         }
