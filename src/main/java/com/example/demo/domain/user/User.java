@@ -1,6 +1,7 @@
 package com.example.demo.domain.user;
 
 import com.example.demo.domain.coin.Era;
+import com.example.demo.domain.coin.Event;
 import com.example.demo.domain.rank.Rank;
 import com.example.demo.domain.rank.Job;
 import jakarta.persistence.*;
@@ -35,12 +36,16 @@ public class User {
     @Column(nullable = false)
     private Job job = Job.NOBI;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private int coin = 0;
+    private Era era;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Era era = Era.JEON_GI;
+    private Event event;
+
+    @Column(nullable = false)
+    private int coin = 0;
 
     // 코인 사용
     public void spendCoin(int amount) {
@@ -66,5 +71,11 @@ public class User {
 
     public void changeEra(Era newEra) {
         this.era = newEra;
+    }
+
+    // 시대/사건 변경
+    public void changeEraAndEvent(Era newEra, Event newEvent) {
+        this.era = newEra;
+        this.event = newEvent;
     }
 }

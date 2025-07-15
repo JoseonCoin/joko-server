@@ -1,11 +1,17 @@
 package com.example.demo.service.user;
 
 import com.example.demo.domain.coin.Era;
+import com.example.demo.domain.coin.Event;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,14 +24,15 @@ public class UserService {
     public void changeEra(Long userId, Era newEra) {
         User user = userRepository.findById(userId).orElseThrow();
 
-        if (user.getEra() == newEra) {
-            throw new IllegalArgumentException("이미 해당 시대입니다.");
-        }
-        if (user.getCoin() < cost) {
-            throw new IllegalArgumentException("코인이 부족합니다.");
-        }
+        if (user.getCoin() < cost) throw new IllegalArgumentException("코인이 부족합니다.");
+
+        List<Event> events = Arrays.stream(Event.values())
+            .filter(e -> e.getEra() == newEra)
+            .collect(Collectors.toList());
+
+        Event randomEvent = events.get(new Random().nextInt(events.size()));
 
         user.spendCoin(cost);
-        user.setEra(newEra);
+        user.changeEraAndEvent(newEra, randomEvent);
     }
 }

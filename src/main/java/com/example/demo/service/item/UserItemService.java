@@ -27,7 +27,8 @@ public class UserItemService {
         if (user.getRank() != item.getJob().getRank()) {
             throw new IllegalArgumentException("해당 신분의 직업만 구매할 수 있습니다.");
         }
-        int cost = coinValueService.getEffectiveCoinValue(user, item.getPrice());
+        int cost = (int) Math.ceil(item.getPrice() * user.getEvent().getMultiplier());
+        if (user.getCoin() < cost) throw new IllegalArgumentException("코인이 부족합니다.");
         user.spendCoin(cost);
         userItemRepository.save(UserItem.builder().user(user).item(item).build());
     }
