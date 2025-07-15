@@ -20,13 +20,8 @@ public class ItemController {
         userItemService.buyItem(request);
     }
 
-    @PostMapping("/equip")
-    public void equip(@RequestParam Long userItemId) {
-        userItemService.equipItem(userItemId);
-    }
-
-    @PostMapping("/unequip")
-    public void unequip(@RequestParam Long userItemId) {
-        userItemService.unequipItem(userItemId);
+    @PostMapping("/sell")
+    public void sell(@RequestParam Long userItemId) {
+        userItemService.sellItem(userItemId);
     }
 }
