@@ -21,19 +21,4 @@ public class UserItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
-
-    @Column(nullable = false, name = "is_using")
-    private boolean using = false;
-
-    // 장착
-    public void equip() {
-        if (this.using) throw new IllegalStateException("이미 장착 중인 아이템입니다.");
-        this.using = true;
-    }
-
-    // 해제
-    public void unequip() {
-        if (!this.using) throw new IllegalStateException("이미 해제된 아이템입니다.");
-        this.using = false;
-    }
 }

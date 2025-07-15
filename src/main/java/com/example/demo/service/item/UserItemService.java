@@ -32,16 +32,4 @@ public class UserItemService {
         user.spendCoin(cost);
         userItemRepository.save(UserItem.builder().user(user).item(item).build());
     }
-
-    @Transactional
-    public void equipItem(Long userItemId) {
-        UserItem userItem = userItemRepository.findById(userItemId).orElseThrow();
-        userItem.equip();
-    }
-
-    @Transactional
-    public void unequipItem(Long userItemId) {
-        UserItem userItem = userItemRepository.findById(userItemId).orElseThrow();
-        userItem.unequip();
-    }
 }
