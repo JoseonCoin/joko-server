@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/**").authenticated()
                         .anyRequest().authenticated()
                 )
+
                 .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new ExceptionFilter(objectMapper), JwtTokenFilter.class)
                 .build();
