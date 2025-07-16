@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/auth/signup").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/quiz/**").authenticated()
                         .requestMatchers("/item/**").authenticated()
                         .requestMatchers("/user/**").authenticated()
