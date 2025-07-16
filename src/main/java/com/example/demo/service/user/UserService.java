@@ -41,4 +41,8 @@ public class UserService {
     public User getUser(Long userId) {
         return userRepository.findById(userId).orElseThrow();
     }
+
+    public User getUserByAccountId(String accountId) {
+        return userRepository.findByAccountId(accountId).orElseThrow();
+    }
 }

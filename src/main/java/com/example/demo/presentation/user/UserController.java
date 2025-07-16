@@ -3,12 +3,16 @@ package com.example.demo.presentation.user;
 import com.example.demo.domain.coin.Era;
 import com.example.demo.domain.coin.Event;
 import com.example.demo.domain.rank.Job;
+import com.example.demo.domain.user.User;
+import com.example.demo.global.security.auth.AuthDetails;
 import com.example.demo.presentation.user.dto.JobsResponse;
 import com.example.demo.presentation.user.dto.UserResponse;
+import com.example.demo.presentation.user.dto.UserIdResponse;
 import com.example.demo.service.rank.RankService;
 import com.example.demo.service.user.UserService;
 import com.example.demo.service.user.dto.ChangeEraResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +47,12 @@ public class UserController {
     public UserResponse getCoin(@RequestParam Long userId) {
         var user = userService.getUser(userId);
         return new UserResponse(user.getCoin(), user.getEra(), user.getJob(), user.getRank(), user.getId());
+    }
+
+    @GetMapping("/id")
+    public UserIdResponse getUserId(@AuthenticationPrincipal AuthDetails authDetails) {
+        String accountId = authDetails.getUsername();
+        User user = userService.getUserByAccountId(accountId);
+        return new UserIdResponse(user.getId());
     }
 }
