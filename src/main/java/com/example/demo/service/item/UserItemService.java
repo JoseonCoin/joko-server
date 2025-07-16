@@ -26,7 +26,7 @@ public class UserItemService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public void buyItem(BuyItemRequest request) {
+    public Long buyItem(BuyItemRequest request) {
         User user = userRepository.findById(request.getUserId()).orElseThrow();
         Item item = itemRepository.findById(request.getItemId()).orElseThrow();
         if (user.getRank() != item.getJob().getRank()) {
@@ -35,7 +35,8 @@ public class UserItemService {
         int cost = (int) Math.ceil(item.getPrice() * user.getEvent().getMultiplier());
         if (user.getCoin() < cost) throw new IllegalArgumentException("코인이 부족합니다.");
         user.spendCoin(cost);
-        userItemRepository.save(UserItem.builder().user(user).item(item).build());
+        UserItem saved = userItemRepository.save(UserItem.builder().user(user).item(item).build());
+        return saved.getId();
     }
 
     @Transactional

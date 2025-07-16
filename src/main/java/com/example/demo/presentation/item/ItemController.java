@@ -8,6 +8,7 @@ import com.example.demo.domain.item.ItemRepository;
 import java.util.List;
 
 import com.example.demo.domain.item.UserItemRepository;
+import com.example.demo.presentation.item.dto.BuyItemResponse;
 
 @RestController
 @RequestMapping("/item")
@@ -18,8 +19,9 @@ public class ItemController {
     private final UserItemRepository userItemRepository;
 
     @PostMapping("/buy")
-    public void buy(@RequestBody BuyItemRequest request) {
-        userItemService.buyItem(request);
+    public BuyItemResponse buy(@RequestBody BuyItemRequest request) {
+        Long userItemId = userItemService.buyItem(request);
+        return new BuyItemResponse(userItemId);
     }
 
     @PostMapping("/sell")
