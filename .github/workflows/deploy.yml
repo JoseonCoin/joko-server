@@ -77,35 +77,45 @@ jobs:
           username: ${{ secrets.USER_DEV }}
           key: ${{ secrets.KEY_DEV }}
           script: |
-            # Stop and remove existing containers
-            sudo docker stop $(sudo docker ps -a -q) 2>/dev/null || true
-            sudo docker rm $(sudo docker ps -a -q) 2>/dev/null || true
-            sudo docker rmi $(sudo docker images -q) 2>/dev/null || true
+            # Stop and remove existing application containers (but keep data containers)
+            sudo docker stop backend-server 2>/dev/null || true
+            sudo docker rm backend-server 2>/dev/null || true
+            sudo docker rmi pjmlove08/joko-server:main 2>/dev/null || true
+            
+            # Create directories for data persistence
+            mkdir -p ~/mysql-data
+            mkdir -p ~/redis-data
             
             # Create Docker network
             docker network create joko-network 2>/dev/null || true
             
-            # Run MySQL container
-            docker run -d --name mysql-server \
-              --network joko-network \
-              -p 3306:3306 \
-              -e MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
-              -e MYSQL_DATABASE="joko" \
-              -v mysql-data:/var/lib/mysql \
-              --restart unless-stopped \
-              mysql:8.0
+            # Run MySQL container (only if not already running)
+            if [ ! "$(docker ps -q -f name=mysql-server)" ]; then
+              docker run -d --name mysql-server \
+                --network joko-network \
+                -p 3306:3306 \
+                -e MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
+                -e MYSQL_DATABASE="joko" \
+                -v ~/mysql-data:/var/lib/mysql \
+                --restart unless-stopped \
+                mysql:8.0
+            fi
             
-            # Run Redis container
-            docker run -d --name redis-server \
-              --network joko-network \
-              -p 6379:6379 \
-              -v redis-data:/data \
-              --restart unless-stopped \
-              redis:7-alpine
+            # Run Redis container (only if not already running)
+            if [ ! "$(docker ps -q -f name=redis-server)" ]; then
+              docker run -d --name redis-server \
+                --network joko-network \
+                -p 6379:6379 \
+                -v ~/redis-data:/data \
+                --restart unless-stopped \
+                redis:7-alpine
+            fi
             
-            # Wait for MySQL to be ready
-            echo "Waiting for MySQL to be ready..."
-            sleep 30
+            # Wait for MySQL to be ready (only if it was just started)
+            if [ ! "$(docker ps -q -f name=mysql-server -f status=running)" ]; then
+              echo "Waiting for MySQL to be ready..."
+              sleep 30
+            fi
             
             # Pull and run application container
             docker pull pjmlove08/joko-server:main
