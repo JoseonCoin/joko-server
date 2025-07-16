@@ -23,6 +23,10 @@ public class QuizRetrievalService {
 
     private final Random random = new SecureRandom();
 
+    public List<Long> getAllQuizIds() {
+        return quizRepository.findAllIds();
+    }
+
     public QuizResponse getQuizById(Long id) {
         Quiz quiz = quizRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 퀴즈를 찾을 수 없습니다."));
@@ -31,6 +35,7 @@ public class QuizRetrievalService {
                 quiz.getId(),
                 quiz.getQuestion(),
                 List.of(quiz.getOption1(), quiz.getOption2(), quiz.getOption3(), quiz.getOption4()),
+                quiz.getCoin(),
                 quiz.getImageUrl()
         );
     }
@@ -56,12 +61,8 @@ public class QuizRetrievalService {
                 quiz.getId(),
                 quiz.getQuestion(),
                 List.of(quiz.getOption1(), quiz.getOption2(), quiz.getOption3(), quiz.getOption4()),
+                quiz.getCoin(),
                 quiz.getImageUrl()
         );
-    }
-
-    public List<Quiz> getQuizList() {
-
-        return quizRepository.findAll();
     }
 }
