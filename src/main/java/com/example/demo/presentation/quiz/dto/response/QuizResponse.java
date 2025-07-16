@@ -12,5 +12,6 @@ public class QuizResponse {
     private Long quizId;
     private String question;
     private List<String> options;
+    private int coin;
     private String imageUrl;
 }

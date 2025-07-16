@@ -31,6 +31,7 @@ public class QuizRetrievalService {
                 quiz.getId(),
                 quiz.getQuestion(),
                 List.of(quiz.getOption1(), quiz.getOption2(), quiz.getOption3(), quiz.getOption4()),
+                quiz.getCoin(),
                 quiz.getImageUrl()
         );
     }
@@ -56,6 +57,7 @@ public class QuizRetrievalService {
                 quiz.getId(),
                 quiz.getQuestion(),
                 List.of(quiz.getOption1(), quiz.getOption2(), quiz.getOption3(), quiz.getOption4()),
+                quiz.getCoin(),
                 quiz.getImageUrl()
         );
     }
