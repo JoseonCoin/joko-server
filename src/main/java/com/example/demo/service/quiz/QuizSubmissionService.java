@@ -9,6 +9,7 @@ import com.example.demo.presentation.quiz.dto.response.QuizResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class QuizSubmissionService {
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public QuizResultResponse submitQuiz(Long userId, QuizSubmitRequest request){
         Quiz quiz = quizRepository.findById(request.getQuizId())
                 .orElseThrow(() -> new IllegalArgumentException("퀴즈를 찾을 수 없습니다."));
@@ -42,6 +44,7 @@ public class QuizSubmissionService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
+
         int coinReward = correct ? quiz.getCoin() : 0;
 
         if (correct) {
@@ -50,6 +53,6 @@ public class QuizSubmissionService {
 
         String explanation = quiz.getExplanation() != null ? quiz.getExplanation() : "해석이 제공되지 않습니다.";
 
-        return new QuizResultResponse(correct, explanation, coinReward);
+        return new QuizResultResponse(correct, correctAnswer, explanation, coinReward);
     }
 }
