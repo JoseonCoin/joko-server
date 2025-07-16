@@ -8,6 +8,7 @@ import lombok.Getter;
 public class QuizResultResponse {
 
     private boolean correct;
+    private String correctAnswer;
     private String explanation;
     private int coinReward;
 }

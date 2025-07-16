@@ -62,6 +62,7 @@ public class User {
         if (amount < 0) {
             throw new IllegalArgumentException("코인 추가 금액은 음수일 수 없습니다.");
         }
+        this.coin += amount;
     }
 
     public void promoteRankAndJob(Rank nextRank, Job nextJob) {
