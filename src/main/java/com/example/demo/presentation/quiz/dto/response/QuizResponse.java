@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuizResponse {
 
-    private Long quizId;
+    private Long id;
     private String question;
     private List<String> options;
     private int coin;
