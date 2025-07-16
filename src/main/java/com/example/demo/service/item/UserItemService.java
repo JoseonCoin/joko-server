@@ -4,13 +4,19 @@ import com.example.demo.domain.item.Item;
 import com.example.demo.domain.item.ItemRepository;
 import com.example.demo.domain.item.UserItem;
 import com.example.demo.domain.item.UserItemRepository;
+import com.example.demo.domain.rank.Job;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.repository.UserRepository;
 import com.example.demo.presentation.item.dto.BuyItemRequest;
+import com.example.demo.presentation.item.dto.UserItemPageResponse;
 import com.example.demo.service.coin.CoinValueService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +47,30 @@ public class UserItemService {
         int salePrice = (int) Math.ceil(item.getPrice() * user.getEvent().getMultiplier());
         user.earnCoin(salePrice);
         userItemRepository.delete(userItem);
+    }
+
+    @Transactional
+    public UserItemPageResponse getUserItemPage(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        Job job = user.getJob();
+
+        List<Item> allItems = itemRepository.findByJob(job);
+
+        Set<Long> ownedItemIds = userItemRepository.findByUserId(userId)
+                .stream().map(ui -> ui.getItem().getId()).collect(Collectors.toSet());
+
+        List<UserItemPageResponse.UserItemInfo> items = allItems.stream()
+                .map(item -> new UserItemPageResponse.UserItemInfo(
+                        item.getId(),
+                        item.getName(),
+                        item.getImageUrl(),
+                        ownedItemIds.contains(item.getId())
+                ))
+                .collect(Collectors.toList());
+
+        int totalCount = allItems.size();
+        int ownedCount = (int) items.stream().filter(UserItemPageResponse.UserItemInfo::isOwned).count();
+
+        return new UserItemPageResponse(job.name(), totalCount, ownedCount, items);
     }
 }

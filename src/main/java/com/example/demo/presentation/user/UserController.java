@@ -39,9 +39,9 @@ public class UserController {
         return ChangeEraResponse.of(era, event);
     }
 
-    @GetMapping("/coin")
+    @GetMapping("/info")
     public UserResponse getCoin(@RequestParam Long userId) {
         var user = userService.getUser(userId);
-        return new UserResponse(user.getCoin(), user.getEra(), user.getRank());
+        return new UserResponse(user.getCoin(), user.getEra(), user.getJob(), user.getRank(), user.getId());
     }
 }

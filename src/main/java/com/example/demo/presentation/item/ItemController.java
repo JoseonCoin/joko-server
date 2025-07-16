@@ -1,6 +1,7 @@
 package com.example.demo.presentation.item;
 
 import com.example.demo.presentation.item.dto.BuyItemRequest;
+import com.example.demo.presentation.item.dto.UserItemPageResponse;
 import com.example.demo.service.item.UserItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -44,4 +45,8 @@ public class ItemController {
             .orElseThrow();
     }
 
+    @GetMapping("/users")
+    public UserItemPageResponse getUserItems(@RequestParam Long userId) {
+        return userItemService.getUserItemPage(userId);
+    }
 }
