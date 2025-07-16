@@ -124,6 +124,7 @@ jobs:
               -p 8080:8080 \
               --restart unless-stopped \
               -e JWT_PREFIX="${{ secrets.JWT_PREFIX }}" \
+              -e JWT_ACCESS_EXP="${{ secrets.JWT_ACCESS_EXP }}" \
               -e JWT_REFRESH_EXP="${{ secrets.JWT_REFRESH_EXP }}" \
               -e JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}" \
               -e MYSQL_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
