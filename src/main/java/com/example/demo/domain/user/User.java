@@ -38,10 +38,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Era era;
+    private Era era = Era.JEON_GI;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column()
     private Event event;
 
     @Column(nullable = false)
