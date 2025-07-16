@@ -43,4 +43,5 @@ public class ItemController {
             .map(item -> ItemDetailResponse.from(item, owned))
             .orElseThrow();
     }
+    
 }
