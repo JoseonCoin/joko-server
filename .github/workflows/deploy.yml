@@ -77,17 +77,48 @@ jobs:
           username: ${{ secrets.USER_DEV }}
           key: ${{ secrets.KEY_DEV }}
           script: |
+            # Stop and remove existing containers
             sudo docker stop $(sudo docker ps -a -q) 2>/dev/null || true
             sudo docker rm $(sudo docker ps -a -q) 2>/dev/null || true
             sudo docker rmi $(sudo docker images -q) 2>/dev/null || true
+            
+            # Create Docker network
+            docker network create joko-network 2>/dev/null || true
+            
+            # Run MySQL container
+            docker run -d --name mysql-server \
+              --network joko-network \
+              -p 3306:3306 \
+              -e MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
+              -e MYSQL_DATABASE="joko" \
+              -v mysql-data:/var/lib/mysql \
+              --restart unless-stopped \
+              mysql:8.0
+            
+            # Run Redis container
+            docker run -d --name redis-server \
+              --network joko-network \
+              -p 6379:6379 \
+              -v redis-data:/data \
+              --restart unless-stopped \
+              redis:7-alpine
+            
+            # Wait for MySQL to be ready
+            echo "Waiting for MySQL to be ready..."
+            sleep 30
+            
+            # Pull and run application container
             docker pull pjmlove08/joko-server:main
-            docker run -d --name backend-server -p 8080:8080 --restart unless-stopped \
+            docker run -d --name backend-server \
+              --network joko-network \
+              -p 8080:8080 \
+              --restart unless-stopped \
               -e JWT_PREFIX="${{ secrets.JWT_PREFIX }}" \
               -e JWT_REFRESH_EXP="${{ secrets.JWT_REFRESH_EXP }}" \
               -e JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}" \
               -e MYSQL_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
-              -e MYSQL_URL="${{ secrets.MYSQL_URL }}" \
+              -e MYSQL_URL="jdbc:mysql://mysql-server:3306/joko" \
               -e MYSQL_USER="${{ secrets.MYSQL_USER }}" \
-              -e REDIS_HOST="${{ secrets.REDIS_HOST }}" \
-              -e REDIS_PORT="${{ secrets.REDIS_PORT }}" \
+              -e REDIS_HOST="redis-server" \
+              -e REDIS_PORT="6379" \
               pjmlove08/joko-server:main
