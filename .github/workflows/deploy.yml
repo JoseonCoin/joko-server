@@ -87,11 +87,11 @@ jobs:
             mkdir -p ~/redis-data
             
             # Create Docker network
-            docker network create joko-network 2>/dev/null || true
+            sudo docker network create joko-network 2>/dev/null || true
             
             # Run MySQL container (only if not already running)
-            if [ ! "$(docker ps -q -f name=mysql-server)" ]; then
-              docker run -d --name mysql-server \
+            if [ ! "$(sudo docker ps -q -f name=mysql-server)" ]; then
+              sudo docker run -d --name mysql-server \
                 --network joko-network \
                 -p 3306:3306 \
                 -e MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
@@ -102,8 +102,8 @@ jobs:
             fi
             
             # Run Redis container (only if not already running)
-            if [ ! "$(docker ps -q -f name=redis-server)" ]; then
-              docker run -d --name redis-server \
+            if [ ! "$(sudo docker ps -q -f name=redis-server)" ]; then
+              sudo docker run -d --name redis-server \
                 --network joko-network \
                 -p 6379:6379 \
                 -v ~/redis-data:/data \
@@ -112,14 +112,14 @@ jobs:
             fi
             
             # Wait for MySQL to be ready (only if it was just started)
-            if [ ! "$(docker ps -q -f name=mysql-server -f status=running)" ]; then
+            if [ ! "$(sudo docker ps -q -f name=mysql-server -f status=running)" ]; then
               echo "Waiting for MySQL to be ready..."
               sleep 30
             fi
             
             # Pull and run application container
-            docker pull pjmlove08/joko-server:main
-            docker run -d --name backend-server \
+            sudo docker pull pjmlove08/joko-server:main
+            sudo docker run -d --name backend-server \
               --network joko-network \
               -p 8080:8080 \
               --restart unless-stopped \
