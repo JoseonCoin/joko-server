@@ -1,6 +1,7 @@
 package com.example.demo.service.auth;
 
 import com.example.demo.domain.coin.Era;
+import com.example.demo.domain.coin.Event;
 import com.example.demo.domain.rank.Job;
 import com.example.demo.domain.rank.Rank;
 import com.example.demo.domain.user.User;
@@ -30,6 +31,7 @@ public class SignupService {
                 .rank(Rank.CHEONMIN)
                 .era(Era.JEON_GI)
                 .job(Job.NOBI)
+                .event(null)
                 .build();
 
         userRepository.save(user);

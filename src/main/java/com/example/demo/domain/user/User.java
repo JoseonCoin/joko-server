@@ -41,11 +41,10 @@ public class User {
     private Era era = Era.JEON_GI;
 
     @Enumerated(EnumType.STRING)
-    @Column()
     private Event event;
 
     @Column(nullable = false)
-    private int coin = 0;
+    private int coin = 30;
 
     // 코인 사용
     public void spendCoin(int amount) {
