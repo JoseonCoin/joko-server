@@ -5,17 +5,17 @@ import com.example.demo.domain.item.ItemRepository;
 import com.example.demo.domain.item.UserItem;
 import com.example.demo.domain.item.UserItemRepository;
 import com.example.demo.domain.rank.Job;
+import com.example.demo.domain.rank.Rank;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.repository.UserRepository;
 import com.example.demo.presentation.item.dto.BuyItemRequest;
+import com.example.demo.presentation.item.dto.GroupedItemResponse;
 import com.example.demo.presentation.item.dto.UserItemPageResponse;
-import com.example.demo.service.coin.CoinValueService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,7 +24,6 @@ public class UserItemService {
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
     private final UserItemRepository userItemRepository;
-    private final CoinValueService coinValueService;
 
     @Transactional
     public void buyItem(BuyItemRequest request) {
@@ -72,5 +71,29 @@ public class UserItemService {
         int ownedCount = (int) items.stream().filter(UserItemPageResponse.UserItemInfo::isOwned).count();
 
         return new UserItemPageResponse(job.name(), totalCount, ownedCount, items);
+    }
+
+    @Transactional
+    public List<GroupedItemResponse> getItemsGroupedByRank() {
+        List<Item> allItems = itemRepository.findAll();
+
+        Map<Rank, List<Item>> grouped = allItems.stream()
+                .collect(Collectors.groupingBy(item -> item.getJob().getRank()));
+
+        List<GroupedItemResponse> result = new ArrayList<>();
+        for (Map.Entry<Rank, List<Item>> entry : grouped.entrySet()) {
+            Rank rank = entry.getKey();
+            List<GroupedItemResponse.ItemInfo> items = entry.getValue().stream()
+                    .map(item -> new GroupedItemResponse.ItemInfo(
+                            item.getId(),
+                            item.getName(),
+                            item.getImageUrl(),
+                            item.getPrice()
+                    ))
+                    .collect(Collectors.toList());
+            result.add(new GroupedItemResponse(rank.name(), items));
+        }
+        result.sort(Comparator.comparing(r -> r.getRank()));
+        return result;
     }
 }

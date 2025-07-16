@@ -1,15 +1,12 @@
 package com.example.demo.presentation.item;
 
-import com.example.demo.presentation.item.dto.BuyItemRequest;
-import com.example.demo.presentation.item.dto.UserItemPageResponse;
+import com.example.demo.presentation.item.dto.*;
 import com.example.demo.service.item.UserItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.domain.item.ItemRepository;
 import java.util.List;
 
-import com.example.demo.presentation.item.dto.ItemSimpleResponse;
-import com.example.demo.presentation.item.dto.ItemDetailResponse;
 import com.example.demo.domain.item.UserItemRepository;
 
 @RestController
@@ -31,10 +28,8 @@ public class ItemController {
     }
 
     @GetMapping("/all")
-    public List<ItemSimpleResponse> getAllItems() {
-        return itemRepository.findAll().stream()
-            .map(ItemSimpleResponse::from)
-            .toList();
+    public List<GroupedItemResponse> getGroupedItems() {
+        return userItemService.getItemsGroupedByRank();
     }
 
     @GetMapping("/detail/{itemId}")
