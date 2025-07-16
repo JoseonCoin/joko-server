@@ -4,13 +4,12 @@ import com.example.demo.domain.coin.Era;
 import com.example.demo.domain.coin.Event;
 import com.example.demo.domain.rank.Job;
 import com.example.demo.presentation.user.dto.JobsResponse;
+import com.example.demo.presentation.user.dto.UserResponse;
 import com.example.demo.service.rank.RankService;
 import com.example.demo.service.user.UserService;
 import com.example.demo.service.user.dto.ChangeEraResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.domain.user.repository.UserRepository;
-import com.example.demo.presentation.user.dto.CoinResponse;
 
 import java.util.List;
 
@@ -41,8 +40,8 @@ public class UserController {
     }
 
     @GetMapping("/coin")
-    public CoinResponse getCoin(@RequestParam Long userId) {
-        int coin = userService.getCoin(userId);
-        return new CoinResponse(coin);
+    public UserResponse getCoin(@RequestParam Long userId) {
+        var user = userService.getUser(userId);
+        return new UserResponse(user.getCoin(), user.getEra(), user.getRank());
     }
 }

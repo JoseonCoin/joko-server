@@ -38,8 +38,7 @@ public class UserService {
         return randomEvent;
     }
 
-    public int getCoin(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        return user.getCoin();
+    public User getUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow();
     }
 }
