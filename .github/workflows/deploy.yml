@@ -77,8 +77,17 @@ jobs:
           username: ${{ secrets.USER_DEV }}
           key: ${{ secrets.KEY_DEV }}
           script: |
-            sudo docker stop $(sudo docker ps -a -q)
-            sudo docker rm $(sudo docker ps -a -q)
-            sudo docker rmi $(sudo docker images -q)
+            sudo docker stop $(sudo docker ps -a -q) 2>/dev/null || true
+            sudo docker rm $(sudo docker ps -a -q) 2>/dev/null || true
+            sudo docker rmi $(sudo docker images -q) 2>/dev/null || true
             docker pull pjmlove08/joko-server:main
-            docker run -d --name backend-server -p 8080:8080 --restart unless-stopped pjmlove08/joko-server:main
+            docker run -d --name backend-server -p 8080:8080 --restart unless-stopped \
+              -e JWT_PREFIX="${{ secrets.JWT_PREFIX }}" \
+              -e JWT_REFRESH_EXP="${{ secrets.JWT_REFRESH_EXP }}" \
+              -e JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}" \
+              -e MYSQL_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
+              -e MYSQL_URL="${{ secrets.MYSQL_URL }}" \
+              -e MYSQL_USER="${{ secrets.MYSQL_USER }}" \
+              -e REDIS_HOST="${{ secrets.REDIS_HOST }}" \
+              -e REDIS_PORT="${{ secrets.REDIS_PORT }}" \
+              pjmlove08/joko-server:main
