@@ -22,7 +22,4 @@ public class UserResponse {
         this.job = job;
         this.rank = rank;
     }
-    public UserResponse(int coin, Era era, Job job, Rank rank) {
-        this(null, coin, era, job, rank);
-    }
 }
