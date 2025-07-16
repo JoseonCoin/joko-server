@@ -29,6 +29,12 @@ public class QuizController {
         return quizSubmissionService.submitQuiz(id, request);
     }
 
+    @GetMapping("/ids")
+    public List<Long> getQuizIds() {
+        List<Long> quizIds = quizRetrievalService.getAllQuizIds();
+        return quizIds;
+    }
+
     @GetMapping("/{quizId}")
     public QuizResponse getQuiz(@PathVariable Long quizId) {
         return quizRetrievalService.getQuizById(quizId);
@@ -40,10 +46,5 @@ public class QuizController {
         User user = userRepository.findByAccountId(accountId)
                 .orElseThrow(() -> new UsernameNotFoundException(accountId));
         return quizRetrievalService.getRandomQuizByUserId(user.getId());
-    }
-
-    @GetMapping("/list")
-    public List<Quiz> getQuizList(){
-        return quizRetrievalService.getQuizList();
     }
 }
