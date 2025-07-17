@@ -26,16 +26,12 @@ public class QuizSubmissionService {
         String selectedAnswer = switch (request.getSelectedIndex()) {
             case 0 -> quiz.getOption1();
             case 1 -> quiz.getOption2();
-            case 2 -> quiz.getOption3();
-            case 3 -> quiz.getOption4();
             default -> throw new IllegalArgumentException("선택지가 유효하지 않습니다.");
         };
 
         String correctAnswer = switch (quiz.getAnswerIndex()) {
             case 0 -> quiz.getOption1();
             case 1 -> quiz.getOption2();
-            case 2 -> quiz.getOption3();
-            case 3 -> quiz.getOption4();
             default -> throw new IllegalArgumentException("퀴즈에 정답이 설정되지 않았습니다.");
         };
 

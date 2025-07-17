@@ -34,7 +34,7 @@ public class QuizRetrievalService {
         return new QuizResponse(
                 quiz.getId(),
                 quiz.getQuestion(),
-                List.of(quiz.getOption1(), quiz.getOption2(), quiz.getOption3(), quiz.getOption4()),
+                List.of(quiz.getOption1(), quiz.getOption2()),
                 quiz.getCoin(),
                 quiz.getImageUrl()
         );
@@ -60,7 +60,7 @@ public class QuizRetrievalService {
         return new QuizResponse(
                 quiz.getId(),
                 quiz.getQuestion(),
-                List.of(quiz.getOption1(), quiz.getOption2(), quiz.getOption3(), quiz.getOption4()),
+                List.of(quiz.getOption1(), quiz.getOption2()),
                 quiz.getCoin(),
                 quiz.getImageUrl()
         );
