@@ -41,7 +41,6 @@ public class User {
     private Era era = Era.JEON_GI;
 
     @Enumerated(EnumType.STRING)
-    @Column()
     private Event event;
 
     @Column(nullable = false)
