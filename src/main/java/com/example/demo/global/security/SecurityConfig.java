@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/quiz/**").authenticated()
                         .requestMatchers("/item/**").authenticated()
                         .requestMatchers("/user/**").authenticated()
+                        .requestMatchers(("/event/**")).authenticated()
                         .anyRequest().authenticated()
                 )
 
