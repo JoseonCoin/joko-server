@@ -13,6 +13,7 @@ public class ChangeEraResponse {
     private int eventYear;
     private String eventDescription;
     private double multiplier;
+    private String imageUrl;
 
     public static ChangeEraResponse of(Era era, Event event) {
         return new ChangeEraResponse(
@@ -20,7 +21,8 @@ public class ChangeEraResponse {
                 event.name(),
                 event.getYear(),
                 event.getDescription(),
-                event.getMultiplier()
+                event.getMultiplier(),
+                event.getImageUrl()
         );
     }
 }
